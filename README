@@ -1,0 +1,68 @@
+GetterSetter version 0.01
+=========================
+
+NAME
+
+GetterSetter - Perl module that allows you to specify what attributes
+have getters and setters
+
+SYNOPSIS
+
+	namespace TestGetterSetter;
+	use GetterSetter;
+
+	BEGIN {
+		create_getter( 'attribute1', 'attribute2', 'attribute4' );
+		create_setter( 'attribute1', 'attribute3' );
+	}
+
+	sub new {
+		my $class = shift;
+		my $instance = {};
+		$instance->{'attribute1'} = 'cow';
+		$instance->{'attriubte2'} = 'dog';
+		$instance->{'attribute3'} = 'cat';
+		$instance->{'attribute4'} = 'duck';
+
+		bless( $instance, $class );
+		return $instance;
+	}
+
+	##### Then later in calling code #######
+
+	use TestGetterSetter;
+
+	my $new_obj = TestGetterSetter->new();
+	print $new_obj->get_attribute1(); # Should print 'cow'
+	$new_obj->set_attribute1( 'snake' );
+	print $new_obj->get_attribute1(); # Should now print 'snake'
+
+	print $new_obj->get_attribute2(); # Should print 'dog'
+	print $new_obj->get_attribute3(); # Runtime error!!!!
+	print $new_obj->get_attribute4(); # Should print 'duck';
+
+	$new_obj->set_attribute3( 'horse' ); # attribute3 is now = to 'horse'
+
+DESCRIPTION
+
+Will allow getter and setter methods to be easily defined by simply
+calling a function in your BEGIN code. It will not overwrite real
+functions already in the text of the code to prevent accidental
+overwrites of more complex getter and setter methods.
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+COPYRIGHT AND LICENCE
+
+Copyright 2002 Eric Anderson. All rights reserved.
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
